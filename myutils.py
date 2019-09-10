@@ -13,7 +13,7 @@ def plot_img(x, y, classes):
     :returns: hv.RGB
     """
     label = f'{classes[np.argmax(y)]} at {np.max(y):.0%}'
-    return hv.RGB(x, label=label).opts(xaxis='bare', yaxis='bare', width=x.shape[0], height=x.shape[1])
+    return hv.RGB(x/255, label=label).opts(xaxis='bare', yaxis='bare', width=x.shape[0], height=x.shape[1])
 
 
 def plot_imgs(X, Y, classes, cols=5):
@@ -32,7 +32,7 @@ def plot_imgs(X, Y, classes, cols=5):
     return layout.cols(cols)
 
 
-def collect_images_from_directory(directory, target_size, classes):
+def collect_images_from_directory(directory, target_size, classes, preprocessing_function=None):
     """
     Collect all images from a directory
     :param directory: string the target directory
@@ -41,7 +41,7 @@ def collect_images_from_directory(directory, target_size, classes):
     :returns: two arrays, both shaped (samples, width, height, 3)
     """
     base_generator = tf.keras.preprocessing.image.ImageDataGenerator(
-        rescale=1/255)
+        preprocessing_function=preprocessing_function)
     generator = base_generator.flow_from_directory(
         directory,
         target_size=target_size,
