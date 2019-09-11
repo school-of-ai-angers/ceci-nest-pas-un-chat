@@ -13,23 +13,20 @@ Requirements:
 2. Clone this repo
 3. Create you new conda environment by executing `conda env create` in a command line placed at the root of this repo (this may take some minutes to complete)
 4. Activate this new environment with `conda activate ceci-nest-pas-un-chat`
-5. Download [Natural Images: A compiled dataset of 6899 images from 8 distinct classes.](https://www.kaggle.com/prasunroy/natural-images) and save it as `data/natural-images.zip`. You'll probably have to create an account Kaggle, sorry about that.
+5. Download [Dogs vs. Cats](https://www.kaggle.com/c/dogs-vs-cats/data) and save it as `data/dogs-vs-cats.zip`. You'll have to create an account Kaggle, sorry about that.
 6. Execute `python prepare_data.py`. It'll unzip and preprocess the images. At this point, you should have a folder structure like:
     ```
     ceci-nest-pas-un-chat
         +-- data
             +-- training
                 +-- cat
-                    +-- cat_0000.jpg
+                    +-- cat.1.jpg
                     +-- (many other nice photos of cats)
-                +-- airplane
-                +-- car
                 +-- dog
-                +-- flower
-                +-- fruit
-                +-- motorbike
-                +-- person
             +-- validation
+                +-- cat
+                +-- dog
+            +-- test
                 +-- cat
                 +-- dog
     ```

@@ -1,13 +1,11 @@
 import os
 from zipfile import ZipFile
-from sklearn.model_selection import train_test_split
-from PIL import Image, ImageOps
+from PIL import Image
 import numpy as np
-import pandas as pd
+from collections import defaultdict
 
 VALIDATION_RATIO = 0.3
 TEST_RATIO = 0.1
-TEST_CLASSES = ['cat', 'dog']
 TARGET_SIZE = (128, 128)
 
 
@@ -18,47 +16,37 @@ def split_sets(elements, ratios):
     :param ratios: a list with K-1 floats that must sum less or equal to 1
     :returns: a list with K lists of elements
     """
-    quantities = np.floor(np.array(ratios) * len(elements)).astype('int')
-    np.random.seed(17)
-    np.random.shuffle(elements)
-    result = []
-    last_index = 0
-    for quantity in quantities:
-        result.append(elements[last_index:last_index+quantity])
-        last_index += quantity
-    result.append(elements[last_index:])
-    return result
 
 
-if not os.path.exists('data/natural-images.zip'):
+if not os.path.exists('data/dogs-vs-cats.zip'):
     raise Exception(
-        'Please download the dataset from https://www.kaggle.com/prasunroy/natural-images and save it as data/natural-images.zip\n' +
+        'Please download the dataset from https://www.kaggle.com/c/dogs-vs-cats/data and save it as data/dogs-vs-cats.zip\n' +
         'The Kaggle website will require you to create an account, sorry about that...')
 
-if not os.path.exists('data/natural_images'):
+if not os.path.exists('data/dogs-vs-cats/train'):
     print('=== Extract ZIP ===')
-    ZipFile('data/natural-images.zip').extractall('data')
+    ZipFile('data/dogs-vs-cats.zip').extractall('data/dogs-vs-cats')
+    ZipFile('data/dogs-vs-cats/train.zip').extractall('data/dogs-vs-cats')
 
 if not os.path.exists('data/training'):
     print('=== Prepare training, validation and test sets ===')
 
+    # Load files by class
+    files_by_class = defaultdict(list)
+    for img_file in os.scandir('data/dogs-vs-cats/train'):
+        files_by_class[img_file.name.split('.')[0]].append(img_file.path)
+
     # Load all files and split into sets
     files_by_destination = {}
-    for class_dir in os.scandir('data/natural_images'):
-        class_name = os.path.basename(class_dir.path)
-        file_names = sorted(
-            img_file.path for img_file in os.scandir(class_dir.path))
-        if class_name in TEST_CLASSES:
-            # train/validation/test
-            a, b, c = split_sets(file_names, [VALIDATION_RATIO, TEST_RATIO])
-            files_by_destination[f'data/validation/{class_name}'] = a
-            files_by_destination[f'data/test/{class_name}'] = b
-            files_by_destination[f'data/training/{class_name}'] = c
-        else:
-            # train/validation
-            a, b = split_sets(file_names, [VALIDATION_RATIO])
-            files_by_destination[f'data/validation/{class_name}'] = a
-            files_by_destination[f'data/training/{class_name}'] = b
+    for class_name, file_names in files_by_class.items():
+        file_names = sorted(file_names)
+        num_validation = int(VALIDATION_RATIO * len(file_names))
+        num_test = int(TEST_RATIO * len(file_names))
+        np.random.seed(17)
+        np.random.shuffle(file_names)
+        files_by_destination[f'data/validation/{class_name}'] = file_names[:num_validation]
+        files_by_destination[f'data/test/{class_name}'] = file_names[num_validation:num_validation+num_test]
+        files_by_destination[f'data/training/{class_name}'] = file_names[num_validation+num_test:]
 
     for destination, files in files_by_destination.items():
         print(f'- Preprocess {len(files)} images to {destination}')
