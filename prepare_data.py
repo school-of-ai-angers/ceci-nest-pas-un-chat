@@ -6,7 +6,7 @@ from collections import defaultdict
 
 VALIDATION_RATIO = 0.3
 TEST_RATIO = 0.1
-TARGET_SIZE = (128, 128)
+TARGET_SIZE = (224, 224)
 
 
 def split_sets(elements, ratios):

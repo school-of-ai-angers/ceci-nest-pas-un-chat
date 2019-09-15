@@ -2,8 +2,13 @@
 
 Train some CNN models to detect cats and dogs with Keras. Then destroy them with some adversarial examples for the fun of it.
 
-TODO
+![Fake dog](./imgs/fake-dog.png)  
+![Fake cat](./imgs/fake-cat.png)  
+![Fake pipe](./imgs/fake-pipe.png)
 
+I'm using the Keras API from TensorFlow 2.0 for this experiment, because that rocks \o/
+
+[Full presentation as PDF](./Ceci%20n%E2%80%99est%20pas%20un%20chat.pdf)
 
 ## How to execute the code
 
@@ -31,21 +36,23 @@ Requirements:
                 +-- dog
     ```
 7. Execute `jupyter notebook` to open the Jupyter HomePage
-8. TODO
+8. Open the notebooks files (those that end with `.ipynb`) and mess around :)
 
+### Some cool references
 
+While researching for this piece, I've stumbled across (in no particular order) these documents:
 
-## Pages
+### Pages
 
 [Clever Hans](https://en.wikipedia.org/wiki/Clever_Hans)
 
-## Images
+### Images
 
 ![VGG19 and ResNet](./imgs/vgg_vs_resnet.png)
 
 ![Inception V3](./imgs/inceptionv3.png)
 
-## Blog posts
+### Blog posts
 
 - [Review: VGGNet — 1st Runner-Up (Image Classification), Winner (Localization) in ILSVRC 2014](https://medium.com/coinmonks/paper-review-of-vggnet-1st-runner-up-of-ilsvlc-2014-image-classification-d02355543a11)
 - [An Overview of ResNet and its Variants](https://towardsdatascience.com/an-overview-of-resnet-and-its-variants-5281e2f56035)
@@ -54,46 +61,11 @@ Requirements:
 - [Review: ResNeXt — 1st Runner Up in ILSVRC 2016 (Image Classification)](https://towardsdatascience.com/review-resnext-1st-runner-up-of-ilsvrc-2016-image-classification-15d7f17b42ac)
 - [Breaking Linear Classifiers on ImageNet](http://karpathy.github.io/2015/03/30/breaking-convnets/)
 
-
-## Tutorials
+### Tutorials
 
 - [Convolutional Neural Networks](https://www.tensorflow.org/beta/tutorials/images/intro_to_cnns)
 
-## Papers
+### Papers
 
 - *ResNext*: K. He, X. Zhang, S. Ren, and J. Sun. Identity Mappings in Deep Residual Networks. 2016. https://arxiv.org/abs/1603.05027
 - *VGG*: K. Simonyan, A. Zisserman. Very Deep Convolutional Networks for Large-Scale Image Recognition. 2014, https://arxiv.org/abs/1409.1556
-
-## Example nets
-
-### Simple net
-
-conv2d(32)
-maxpool(2)
-dense(128)
-dense(1)
-
-## TF tutorial
-
-conv2d(32)
-maxpool(2)
-conv2d(64)
-maxpool(2)
-conv2d(64)
-dense(64)
-dense(10)
-
-### VGG16
-
-2x conv2d(64)
-maxpool(2)
-2x conv2d(128)
-maxpool(2)
-3x conv2d(256)
-maxpool(2)
-3x conv2d(512)
-maxpool(2)
-3x conv2d(512)
-maxpool(2)
-2x dense(4096)
-dense(K)

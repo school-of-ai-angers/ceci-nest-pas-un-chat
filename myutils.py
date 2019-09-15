@@ -16,7 +16,7 @@ def plot_img(x, y, classes):
     return hv.RGB(x/255, label=label).opts(xaxis='bare', yaxis='bare', width=x.shape[0], height=x.shape[1])
 
 
-def plot_imgs(X, Y, classes, cols=5):
+def plot_imgs(X, Y, classes, cols=4):
     """
     Display many images nicely
     :param x: an array shaped (m, width, height, 3)
@@ -32,20 +32,16 @@ def plot_imgs(X, Y, classes, cols=5):
     return layout.cols(cols)
 
 
-def collect_images_from_directory(directory, target_size, classes, preprocessing_function=None):
+def collect_images_from_directory(directory, target_size):
     """
     Collect all images from a directory
     :param directory: string the target directory
     :param target_size: tuple (width, height)
-    :param classes: list of string
     :returns: two arrays, both shaped (samples, width, height, 3)
     """
-    base_generator = tf.keras.preprocessing.image.ImageDataGenerator(
-        preprocessing_function=preprocessing_function)
+    base_generator = tf.keras.preprocessing.image.ImageDataGenerator()
     generator = base_generator.flow_from_directory(
-        directory,
-        target_size=target_size,
-        classes=classes)
+        directory, target_size=target_size)
     Xs = []
     Ys = []
     for i in range(len(generator)):
@@ -102,7 +98,7 @@ def get_predict_df(val_Y, val_Y_pred, classes):
     return df
 
 
-def plot_best_and_worst(df, X, Y_pred, classes, n=5):
+def plot_best_and_worst(df, X, Y_pred, classes, n=8):
     """
     Plot the best and worst cases
     :param df: pd.DataFrame returned by get_predict_df()
@@ -115,7 +111,7 @@ def plot_best_and_worst(df, X, Y_pred, classes, n=5):
     best_5 = df.nsmallest(n, 'loss').index.values
     worst_5 = df.nlargest(n, 'loss').index.values
     return (plot_imgs(X[best_5], Y_pred[best_5], classes) +
-            plot_imgs(X[worst_5], Y_pred[worst_5], classes)).opts(title=f'Best and worst {n}').cols(n)
+            plot_imgs(X[worst_5], Y_pred[worst_5], classes)).opts(title=f'Best and worst {n}').cols(4)
 
 
 def plot_confidence_distribution(df):
