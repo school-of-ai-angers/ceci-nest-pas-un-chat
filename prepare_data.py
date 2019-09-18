@@ -18,22 +18,21 @@ def split_sets(elements, ratios):
     """
 
 
-if not os.path.exists('data/dogs-vs-cats.zip'):
+if not os.path.exists('data/train.zip'):
     raise Exception(
-        'Please download the dataset from https://www.kaggle.com/c/dogs-vs-cats/data and save it as data/dogs-vs-cats.zip\n' +
+        'Please download the file train.zip dataset from https://www.kaggle.com/c/dogs-vs-cats/data and save it as data/train.zip\n' +
         'The Kaggle website will require you to create an account, sorry about that...')
 
-if not os.path.exists('data/dogs-vs-cats/train'):
+if not os.path.exists('data/train'):
     print('=== Extract ZIP ===')
-    ZipFile('data/dogs-vs-cats.zip').extractall('data/dogs-vs-cats')
-    ZipFile('data/dogs-vs-cats/train.zip').extractall('data/dogs-vs-cats')
+    ZipFile('data/train.zip').extractall('data')
 
 if not os.path.exists('data/training'):
     print('=== Prepare training, validation and test sets ===')
 
     # Load files by class
     files_by_class = defaultdict(list)
-    for img_file in os.scandir('data/dogs-vs-cats/train'):
+    for img_file in os.scandir('data/train'):
         files_by_class[img_file.name.split('.')[0]].append(img_file.path)
 
     # Load all files and split into sets
