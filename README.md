@@ -38,6 +38,33 @@ Requirements:
 7. Execute `jupyter notebook` to open the Jupyter HomePage
 8. Open the notebooks files (those that end with `.ipynb`) and mess around :)
 
+## Runing in Google Colab
+
+You can run the notebooks from this repo in Google Colab instead:
+
+1. Open one of them, like: https://colab.research.google.com/github/sitegui/ceci-nest-pas-un-chat/blob/master/Train%20simple%20model.ipynb
+2. Use GPU if available: Runtime > Change runtime type > Hardware accelerator > GPU
+3. Add the following as a first cell and execute it. Replace `your-kaggle-user-name` and `your-kaggle-key` with your API credentials (you can get one for you using the button `Create New API Token` in [your profile page](https://www.kaggle.com/sitegui/account))
+
+    ```
+    !git clone https://github.com/sitegui/ceci-nest-pas-un-chat.git && \
+    mv ceci-nest-pas-un-chat/* . && \
+    pip install -r requirements-colab.txt && \
+    KAGGLE_USERNAME=your-kaggle-user-name \
+    KAGGLE_KEY=your-kaggle-key \
+    kaggle competitions download dogs-vs-cats -p data -f train.zip && \
+    python prepare_data.py
+    ```
+4. Restart you runtime in Runtime > Restart runtime...
+5. The Holoviews graphs may not show. When that's the case, you should add:
+
+    ```
+    %env HV_DOC_HTML=true
+    hv.extension('bokeh')
+    ```
+
+to the beggining of every cell that displays a Holoviews element (as per this [SO answer](https://stackoverflow.com/a/55507337))
+
 ### Some cool references
 
 While researching for this piece, I've stumbled across (in no particular order) these documents:
