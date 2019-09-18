@@ -1,6 +1,5 @@
 data
 .ipynb_checkpoints
 .vscode
-models
 *.pyc
 adversarial
