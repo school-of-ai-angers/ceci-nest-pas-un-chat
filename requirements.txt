@@ -1,5 +1,5 @@
 jupyter==1.0.0
-pip==19.2.2
+pip==21.1
 pillow==6.1.0
 holoviews==1.12.3
 pandas==0.25.1
